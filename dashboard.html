@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="dashboard" class="dashboard">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Employee Management System</span>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#" data-tab="employees" class="active"><i class="fas fa-users"></i> Employees</a></li>
+                <li><a href="#" data-tab="departments"><i class="fas fa-building"></i> Departments</a></li>
+                <li><a href="#" data-tab="roles"><i class="fas fa-user-tag"></i> Roles</a></li>
+                <li><a href="#" data-tab="projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Employees</h1>
+                </div>
+                <div class="header-right">
+                    <div class="user-info">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span>Admin User</span>
+                    </div>
+                </div>
+            </header>
+
+            <div id="employeesTab" class="tab-content active">
+                <div class="content-header">
+                    <div class="header-actions">
+                        <div class="search-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="employeeSearch" placeholder="Search employees...">
+                            </div>
+                            <select id="employeeSortBy" class="sort-select">
+                                <option value="name">Sort by Name</option>
+                                <option value="id">Sort by ID</option>
+                                <option value="department">Sort by Department</option>
+                            </select>
+                        </div>
+                        <button class="add-btn" data-modal="employeeModal">
+                            <i class="fas fa-plus"></i>
+                            Add Employee
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Department</th>
+                                <th>Role</th>
+                                <th>Salary</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="departmentsTab" class="tab-content">
+                <div class="content-header">
+                    <div class="header-actions">
+                        <div class="search-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="departmentSearch" placeholder="Search departments...">
+                            </div>
+                        </div>
+                        <button class="add-btn" data-modal="departmentModal">
+                            <i class="fas fa-plus"></i>
+                            Add Department
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Location</th>
+                                <th>Employees</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="departmentTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="rolesTab" class="tab-content">
+                <div class="content-header">
+                    <div class="header-actions">
+                        <div class="search-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="roleSearch" placeholder="Search roles...">
+                            </div>
+                        </div>
+                        <button class="add-btn" data-modal="roleModal">
+                            <i class="fas fa-plus"></i>
+                            Add Role
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Employees</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roleTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="projectsTab" class="tab-content">
+                <div class="content-header">
+                    <div class="header-actions">
+                        <div class="search-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="projectSearch" placeholder="Search projects...">
+                            </div>
+                            <select id="projectSortBy" class="sort-select">
+                                <option value="name">Sort by Name</option>
+                                <option value="startDate">Sort by Start Date</option>
+                                <option value="endDate">Sort by End Date</option>
+                            </select>
+                        </div>
+                        <button class="add-btn" data-modal="projectModal">
+                            <i class="fas fa-plus"></i>
+                            Add Project
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Assigned Employees</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projectTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Employee</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="employeeForm" class="modal-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="employeeName">Full Name</label>
+                        <input type="text" id="employeeName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeEmail">Email</label>
+                        <input type="email" id="employeeEmail" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="employeeDepartment">Department</label>
+                        <select id="employeeDepartment" required>
+                            <option value="">Select Department</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="employeeRole">Role</label>
+                        <select id="employeeRole" required>
+                            <option value="">Select Role</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="employeeSalary">Salary</label>
+                    <input type="number" id="employeeSalary" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('employeeModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Employee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="departmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Department</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="departmentForm" class="modal-form">
+                <div class="form-group">
+                    <label for="departmentName">Department Name</label>
+                    <input type="text" id="departmentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="departmentLocation">Location</label>
+                    <input type="text" id="departmentLocation" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('departmentModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Department</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="roleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Role</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="roleForm" class="modal-form">
+                <div class="form-group">
+                    <label for="roleName">Role Name</label>
+                    <input type="text" id="roleName" required>
+                </div>
+                <div class="form-group">
+                    <label for="roleDescription">Description</label>
+                    <textarea id="roleDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('roleModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Role</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Project</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="projectForm" class="modal-form">
+                <div class="form-group">
+                    <label for="projectName">Project Name</label>
+                    <input type="text" id="projectName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projectStartDate">Start Date</label>
+                        <input type="date" id="projectStartDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projectEndDate">End Date</label>
+                        <input type="date" id="projectEndDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="projectEmployees">Assign Employees</label>
+                    <select id="projectEmployees" multiple></select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('projectModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="dependentsModal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h2>Manage Dependents</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="dependents-header">
+                    <h3>Employee: <span id="dependentsEmployeeName"></span></h3>
+                    <button class="add-btn" id="addDependentBtn">
+                        <i class="fas fa-plus"></i>
+                        Add Dependent
+                    </button>
+                </div>
+                <div class="dependents-list" id="dependentsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dependentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Dependent</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="dependentForm" class="modal-form">
+                <div class="form-group">
+                    <label for="dependentName">Dependent Name</label>
+                    <input type="text" id="dependentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="dependentRelationship">Relationship</label>
+                    <input type="text" id="dependentRelationship" required>
+                </div>
+                <div class="form-group">
+                    <label for="dependentDateOfBirth">Date of Birth</label>
+                    <input type="date" id="dependentDateOfBirth" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal('dependentModal')">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Dependent</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <i class="notification-icon"></i>
+            <span class="notification-text"></span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
